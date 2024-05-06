@@ -156,7 +156,13 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    //'domain' => env('SESSION_DOMAIN'),
+
+    'domain' => env('SESSION_DOMAIN', 'http://localhost'),
+
+   // 'domain' => 'http://localhost:3000',
+
+   //'domain' => '.domain.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +175,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -212,6 +218,6 @@ return [
     |
     */
 
-    'partitioned' => env('SESSION_PARTITIONED_COOKIE', false),
+    'partitioned' => env('SESSION_PARTITIONED_COOKIE'),
 
 ];

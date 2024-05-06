@@ -123,9 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'middleware' => [
+   /*'middleware' => [
         //\App\Http\Middleware\TrustProxies::class,
   
-        \App\Http\Middleware\Cors::class, //acrescente essa linha
-    ],
+        \Config\Cors::class, //acrescente essa linha
+    ],*/
 ];

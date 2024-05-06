@@ -9,16 +9,16 @@ use Illuminate\Notifications\Notifiable;
 
 class Bank extends Authenticatable
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = BankTransaction::with('transactions')->get();
-        return response()->json($users);
+        $user =  Bank::where('customerId', $request['customerId'])->get();
+        return response()->json($user);
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $user = BankTransaction::with('transactions')->find($id);
-        return response()->json($user);
+        $user =  Bank::where('customerId', $request['customerId'])->where('customerPin', $request['customerPin'])->get();
+            return response()->json($user);
     }
 
     public function store(Request $request)
@@ -26,7 +26,7 @@ class Bank extends Authenticatable
         $jsonData = $request->json()->all();
 
         foreach ($jsonData['users'] as $userData) {
-            $user = BankTransaction::create([
+            $user = Bank::create([
                 'customer_id' => $userData['customerId'],
                 // Adicione outras colunas conforme necessário
             ]);

@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+
 
 return new class extends Migration
 {
@@ -37,22 +39,53 @@ return new class extends Migration
         });
 
         Schema::create('banks', function (Blueprint $table) {
-            $table->integer('customerId')->nullable()->primary();
-            $table->string('customerName',300)->nullable()->index();
-            $table->integer('customerPin')->nullable()->index();
+            $table->string('customerId')->nullable()->primary();
+            $table->string('customerName',300)->nullable();
+            $table->string('customerPin')->nullable();
             $table->string('customerAccountType',300);
             $table->longText('customerAccountNo');
-            $table->string('customerAccountBalance',300)->index();
-            $table->integer('customerAadhar')->index();
-            $table->integer('customerPan')->index();
-            $table->integer('customerContac')->index();
-            $table->string('customerEmail',300)->index();
-            $table->integer('transactionId')->index();
-            $table->integer('transactionDate')->index();
-            $table->integer('transactionAmount')->index();
-            $table->string('transactionType',300)->index();
+            $table->string('customerAccountBalance',300);
+            $table->integer('customerAadhar');
+            $table->integer('customerPan');
+            $table->integer('customerContac');
+            $table->string('customerEmail',300);
         });
+     
+
+        Schema::create('customer_transactions', function (Blueprint $table) {
+            $table->string('customerId')->nullable()->primary();
+            $table->integer('transactionId');
+            $table->date('transactionDate');
+            $table->integer('transactionAmount');
+            $table->string('transactionType',300);
+        });
+    
+            DB::table('banks')->insert(
+                [
+                  'customerId' => '1234',
+                  'customerName' => 'Raju',
+                  'customerPin' =>  '9899',
+                  'customerAccountType' => 'savings',
+                  'customerAccountNo' => 8765678,
+                  'customerAccountBalance' =>  '12,450',
+                  'customerAadhar' => 1234567,
+                  'customerPan' =>  1234567,
+                  'customerContac' => 1234567,
+                  'customerEmail' => 'raju@email.com'
+                ]
+              );
+
+              DB::table('customer_transactions')->insert(
+                [
+                    'customerId' => '1234',
+                    'transactionId' =>  1466,
+                    'transactionDate' => '2023-02-12',
+                    'transactionAmount' => 5500,
+                    'transactionType' =>  "debit"
+                ]);
     }
+
+    
 
     /**
      * Reverse the migrations.
@@ -62,6 +95,11 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
-        Schema::dropIfExists('bank');
+        Schema::dropIfExists('banks');
+        Schema::dropIfExists('customerTransactions');
     }
-};
+
+ 
+}
+
+;

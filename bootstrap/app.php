@@ -11,11 +11,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-         $middleware = [
-            //\App\Http\Middleware\TrustProxies::class,
-     
-            \App\Http\Middleware\Cors::class, //acrescente essa linha
-            ];
+           $middleware->validateCsrfTokens(except: [
+               'stripe/*',
+                '*',
+               // 'http://127.0.0.1:8000/users/show',
+              /* 'http://127.0.0.1:5000/users/index',
+               'http://127.0.0.1:5000/users/show/*',
+               'http://127.0.0.1:5000/users/show',*/
+               // 'http://127.0.0.1:8000/customertransaction/CustomerIndex',
+               //'http://127.0.0.1:8000/users/*'
+           ]);
+
+         
       
     })
     ->withExceptions(function (Exceptions $exceptions) {
