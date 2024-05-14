@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
            $middleware->validateCsrfTokens(except: [
-               'stripe/*',
+               'http://localhost:5000/*',
                 '*',
                // 'http://127.0.0.1:8000/users/show',
               /* 'http://127.0.0.1:5000/users/index',

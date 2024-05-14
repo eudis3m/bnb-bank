@@ -49,15 +49,18 @@ return new class extends Migration
             $table->integer('customerPan');
             $table->integer('customerContac');
             $table->string('customerEmail',300);
+            $table->date('updated_at');
         });
      
 
         Schema::create('customer_transactions', function (Blueprint $table) {
-            $table->string('customerId')->nullable()->primary();
+            $table->string('id')->primary();
+            $table->string('customerId');
             $table->integer('transactionId');
             $table->date('transactionDate');
             $table->integer('transactionAmount');
             $table->string('transactionType',300);
+            $table->date('updated_at');
         });
     
             DB::table('banks')->insert(

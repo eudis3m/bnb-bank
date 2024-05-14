@@ -5,17 +5,17 @@ use Illuminate\Http\Request;
 define('LARAVEL_START', microtime(true));
 
 $allowedOrigins =  array (
-    /*'http://127.0.0.1:5000/*',
+     'http://127.0.0.1:5000/*',
     'http://localhost:5000/*',
-    'http://127.0.0.1:8000/CustomerIndex',
-    'http://localhost:5000/transactions/*',*/
+    'http://127.0.0.1:8000/customertransaction/CustomerIndex',
+    'http://localhost:5000/transactions/*',
     '*'
   );
   if(isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != ''){
      foreach($allowedOrigins as $allowedOrigin){
        if(preg_match('/^[a-zA-Z0-9 \r\n\/\[\].-]*$allowedOrigin/', $_SERVER['HTTP_ORIGIN'])){
         header('Access-Control-Allow-Origin:'  .$_SERVER['HTTP_ORIGIN']);
-        header('Access-Control-Allow-Credentials: true');
+       // header('Access-Control-Allow-Credentials: false');
         header('Access-Control-Allow-Methods: PUT, POST, DELETE, GET, OPTIONS');
         header('Access-Control-Allow-Max-Age: 1728000');
         header('Access-Control-Allow_Credentials: true');
