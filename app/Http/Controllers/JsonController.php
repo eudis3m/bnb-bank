@@ -21,69 +21,51 @@ class JsonController extends Controller
         return StringUtils::equals($request->session()->token(), $token);
     }
 
-        public function consultar($id )
-        {
-            $user =  Bank::where('customerId', $customerId)->get();
-            return response()->json($user);
-        }
+   
         public function index(Request $request)
         {
-            $user =  Bank::where('customerId', $request['customerId'])->get();
+            $customerId = $request['customerId'];
+            $user =  Bank::index($customerId);
             return response()->json($user);
         }
     
         public function show(Request $request)
         {
 
-            $user =  Bank::where('customerId', $request['customerId'])->where('customerPin', $request['customerPin'])->get();
+            $customerId = $request['customerId'];
+            $customerPin = $request['customerPin'];
+            $user =  Bank::show($customerId,$customerPin);
             return response()->json($user);
 
         }
     
         public function store(Request $request)
         {
-           
-                DB::table('banks')->insert(
-                    [
-                    'customerId' => $request['customerId'],
-                      'customerName' => $request['customerName'],
-                      'customerPin' =>  $request['customerPin'],
-                      'customerAccountType' => $request['customerAccountType'],
-                      'customerAccountNo' => $request['customerAccountNo'],
-                      'customerAccountBalance' =>  $request['customerAccountBalance'],
-                      'customerAadhar' => $request['customerAadhar'],
-                      'customerPan' =>  $request['customerPan'],
-                      'customerContac' => $request['customerContac'],
-                      'customerEmail' => $request['customerEmail']]);
-    
+            $user =  Bank::store($request);
+            if($user !== null){
             return response()->json(['message' => 'Registered user']);
+            }
+            return response()->json($user);
 
         }
     
         public function update(Request $request)
         {
-            //$user = Bank::find($request['customerId']);
-            $user =  Bank::where('customerId', $request['customerId'])->update([
-                'customerId' => $request['customerId'],
-                  'customerName' => $request['customerName'],
-                  'customerPin' =>  $request['customerPin'],
-                  'customerAccountType' => $request['customerAccountType'],
-                  'customerAccountNo' => $request['customerAccountNo'],
-                  'customerAccountBalance' =>  $request['customerAccountBalance'],
-                  'customerAadhar' => $request['customerAadhar'],
-                  'customerPan' =>  $request['customerPan'],
-                  'customerContac' => $request['customerContac'],
-                  'customerEmail' => $request['customerEmail']]);
-            //$user->update($request->all());
+
+             $user =  Bank::updateUser($request);
+            if($user !== null){
             return response()->json(['message' => 'User update successfully']);
+            }
+            return response()->json($user);
         }
+
     
         public function destroy(Request $request)
         {
-            $user =  Bank::where('customerId', $request['customerId'])->delete(
-                [
-                    'customerId' => $request['customerId']
-                ]);
-            return response()->json(['message' => 'User deleted successfully']);
+            $user =  Bank::destroy($request);
+            if($user !== null){
+                return response()->json(['message' => 'User deleted successfully']);
+            }
+            return response()->json($user);
         }
 }

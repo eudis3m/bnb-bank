@@ -6,52 +6,61 @@ use Illuminate\Http\Request;
 use App\Models\CustomerTransaction;
 use Illuminate\Support\Facades\DB;
 
-class CustomerController extends Controller
+ class CustomerController extends Controller
 {
-    public function index(Request $request)
+    private $customerTransaction;
+   // private $this_var = $this;
+    public function __construct(CustomerTransaction $customerTransaction){
+        $this->$customerTransaction = $customerTransaction;
+    }
+    
+    public  function  index(Request $request)
     {
-        $user = Customertransaction::where('customerId', $request['customerId'])->get();
-       // DB::table('customer_trasaction')->where('customerId', $request['customerId'])->get();
-       $customerTransactions = array("customerTransactions" => $user);
+       
+        $arrays = $request['customerId'];
+        $user =  CustomerTransaction::index($arrays);
+        $customerTransactions = array("customerTransactions" => $user);
+        return response()->json($customerTransactions);
+    }
+
+    public  function  indexDate(Request $request)
+    {
+       
+        $dateStart = $request['dateStart'];
+        $dateFinish = $request['dateFinish'];
+        $user =  CustomerTransaction::index($dateStart,$dateFinish);
+        $customerTransactions = array("customerTransactions" => $user);
         return response()->json($customerTransactions);
     }
 
 
     public function store(Request $request)
     {
-
-           DB::table('customer_transactions')->insert(
-               [
-                    'customerId' => $request['customerId'],
-                    'transactionId' => $request['transactionId'],
-                    'transactionDate' => $request['transactionDate'],
-                    'transactionAmount' => $request['transactionAmount'],
-                    'transactionType' => $request['transactionType']
-                ]);
-            
-
+        $customer =  CustomerTransaction::store($request);
+        if($customer !== null){
         return response()->json(['message' => 'JSON processado e armazenado com sucesso']);
+        }
+        return response()->json($customer);
     }
 
-    public function update(Request $request)
-    {
-        $user =   CustomerTransaction::where('customerId', $request['customerId'])->update([
-            'customerId' => $request['customerId'],
-              'transactionId' =>  $request['transactionId'],
-              'transactionDate' => $request['transactionDate'],
-              'transactionAmount' => $request['transactionAmount'],
-              'transactionType' =>  $request['transactionType']]);
+    public  function update(Request $request)
+    {  
+       $arrays = $request['customerId']; 
+        $customer =  CustomerTransaction::updateCustomer($request, $arrays);
+        if($customer !== null){
         return response()->json(['message' => 'User update successfully']);
+        }
+        return response()->json($customer);
     }
 
    
     public  function destroy(Request $request)
     {
-        $user =  CustomerTrasanction::where('customerId', $request['customerId'])->delete(
-        //DB::table('customer_transactions')->delete(
-            [
-                'customerId' => $request['customerId']
-            ]);
+        $arrays = $request['customerId'];
+        $customer =  CustomerTransaction::destroy($arrays);
+        if($customer !== null){
         return response()->json(['message' => 'User deleted successfully']);
+        }
+        return response()->json($customer);
     }
 }

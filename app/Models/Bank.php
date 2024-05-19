@@ -6,54 +6,63 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class Bank extends Authenticatable
 {
-    public function index(Request $request)
+    public static function index($customerId)
     {
-        $user =  Bank::where('customerId', $request['customerId'])->get();
-        return response()->json($user);
+        $user =  DB::select('SELECT * FROM banks WHERE customerId = "'.$customerId.'"');
+        return $user;
     }
 
-    public function show(Request $request)
+    public static function show($customerId,$customerPin)
     {
-        $user =  Bank::where('customerId', $request['customerId'])->where('customerPin', $request['customerPin'])->get();
-            return response()->json($user);
+        $user =  DB::select('SELECT * FROM banks WHERE customerId = "'.$customerId.'" and customerPin = "'.$customerPin.'"');
+        return $user;
     }
 
-    public function store(Request $request)
+    public static function store($request)
     {
-        $jsonData = $request->json()->all();
+       $user = DB::table('banks')->insert(
+            [
+            'customerId' => $request['customerId'],
+              'customerName' => $request['customerName'],
+              'customerPin' =>  $request['customerPin'],
+              'customerAccountType' => $request['customerAccountType'],
+              'customerAccountNo' => $request['customerAccountNo'],
+              'customerAccountBalance' =>  $request['customerAccountBalance'],
+              'customerAadhar' => $request['customerAadhar'],
+              'customerPan' =>  $request['customerPan'],
+              'customerContac' => $request['customerContac'],
+              'customerEmail' => $request['customerEmail']]);
 
-        foreach ($jsonData['users'] as $userData) {
-            $user = Bank::create([
-                'customer_id' => $userData['customerId'],
-                // Adicione outras colunas conforme necessário
-            ]);
-
-            foreach ($userData['customerTransactions'] as $transactionData) {
-                $user->transactions()->create([
-                    'transaction_date' => $transactionData['transactionDate'],
-                    'transaction_amount' => $transactionData['transactionAmount'],
-                    'transaction_type' => $transactionData['transactionType']
-                ]);
-            }
-        }
-
-        return response()->json(['message' => 'JSON processado e armazenado com sucesso']);
+    return $user;
+       
     }
 
-   /* public  function update(Request $request, $id)
+    public static  function updateUser($request)
     {
-        $user = UserTransaction::find($id);
-        $user->update($request->all());
-        return response()->json($user);
-    }*/
+        $user =  Bank::where('customerId', $request['customerId'])->update([
+            'customerId' => $request['customerId'],
+              'customerName' => $request['customerName'],
+              'customerPin' =>  $request['customerPin'],
+              'customerAccountType' => $request['customerAccountType'],
+              'customerAccountNo' => $request['customerAccountNo'],
+              'customerAccountBalance' =>  $request['customerAccountBalance'],
+              'customerAadhar' => $request['customerAadhar'],
+              'customerPan' =>  $request['customerPan'],
+              'customerContac' => $request['customerContac'],
+              'customerEmail' => $request['customerEmail']]);
+        return $user;
+    }
    
-    public static function destroy($id)
+    public static function destroy($request)
     {
-        $user = BankTransaction::find($id);
-        $user->delete();
-        return response()->json(['message' => 'User deleted successfully']);
+        $user =  Bank::where('customerId', $request['customerId'])->delete(
+            [
+                'customerId' => $request['customerId']
+            ]);
+        return $user;
     }
 }

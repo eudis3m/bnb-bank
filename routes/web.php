@@ -12,14 +12,15 @@ Route::get('/', function () {
 });
 //Route::get('/token', [VerifyCsrfToken::class, 'tokensMatch']);
 Route::post('/users/index', [JsonController::class, 'index']);
-Route::post('/customertransaction/CustomerIndex', [CustomerController::class, 'index']);
+Route::post('/customerTransaction/customerIndex', [CustomerController::class, 'index']);
+Route::post('/customertransaction/date', [CustomerController::class, 'indexDate']);
 Route::post('/users/show', [JsonController::class, 'show']);
 Route::post('/users/create', [JsonController::class, 'store']);
-Route::post('/CustomerCreate', [CustomerController::class, 'store']);
+Route::post('/customerCreate', [CustomerController::class, 'store']);
 Route::put('/users/update', [JsonController::class, 'update']);
-Route::put('/CustomerUpdate', [CustomerController::class, 'update']);
+Route::put('/customerUpdate', [CustomerController::class, 'update']);
 Route::delete('/users/delete', [JsonController::class, 'destroy']);
-Route::delete('/CustomerDelete', [CustomerController::class, 'destroy']);
+Route::delete('/customerDelete', [CustomerController::class, 'destroy']);
 
 
 
