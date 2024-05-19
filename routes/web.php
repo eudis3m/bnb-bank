@@ -13,7 +13,7 @@ Route::get('/', function () {
 //Route::get('/token', [VerifyCsrfToken::class, 'tokensMatch']);
 Route::post('/users/index', [JsonController::class, 'index']);
 Route::post('/customerTransaction/customerIndex', [CustomerController::class, 'index']);
-Route::post('/customertransaction/date', [CustomerController::class, 'indexDate']);
+Route::post('/customerTransaction/date', [CustomerController::class, 'indexDate']);
 Route::post('/users/show', [JsonController::class, 'show']);
 Route::post('/users/create', [JsonController::class, 'store']);
 Route::post('/customerCreate', [CustomerController::class, 'store']);

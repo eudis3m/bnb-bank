@@ -28,7 +28,8 @@ use Illuminate\Support\Facades\DB;
        
         $dateStart = $request['dateStart'];
         $dateFinish = $request['dateFinish'];
-        $user =  CustomerTransaction::index($dateStart,$dateFinish);
+        $customerId = $request['customerId'];
+        $user =  CustomerTransaction::indexDate($dateStart,$dateFinish,$customerId);
         $customerTransactions = array("customerTransactions" => $user);
         return response()->json($customerTransactions);
     }

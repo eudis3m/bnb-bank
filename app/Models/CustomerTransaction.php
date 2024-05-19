@@ -17,9 +17,8 @@ class CustomerTransaction extends Authenticatable
         return $customer;
     }
 
-    public static function indexDate($dateStart,$dateFinish){
-        $customer =  DB::select('SELECT * FROM customer_transactions WHERE transactionDate BETWEEN
-         "'.$dateStart.'" AND "'.$dateFinish.'"');
+    public static function indexDate($dateStart,$dateFinish,$customerId){
+        $customer =  DB::select('SELECT * FROM customer_transactions WHERE customerId = "'.$customerId.'" AND transactionDate BETWEEN "'.$dateStart.'" AND "'.$dateFinish.'"');
         return $customer;
     }
 

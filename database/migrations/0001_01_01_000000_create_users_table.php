@@ -55,7 +55,7 @@ return new class extends Migration
 
         Schema::create('customer_transactions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('customerId');
+            $table->foreign('customerId')->references('customerId')->on('banks');
             $table->integer('transactionId');
             $table->date('transactionDate');
             $table->integer('transactionAmount');
