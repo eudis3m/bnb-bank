@@ -20,13 +20,12 @@ use Illuminate\Support\Facades\DB;
         
         $arrays = $request['customerId'];
         $customer =  CustomerTransaction::index($arrays);
-        foreach($customer as $result){
-        $totaly =+  $result->transactionAmount;
-        $result->totaly =  $totaly;
-        $customerTransactions = array($result);
-        return response()->json($customerTransactions);
-            }
-      //  }
+        /*foreach($customer as $result){
+        $totaly =+  $customer->transactionAmount;
+        $customer->totaly =  $totaly;
+        $customerTransactions = array($customer);*/
+        return response()->json($customer);
+           // }
     }
 
     public  function  indexDate(Request $request)
@@ -36,12 +35,12 @@ use Illuminate\Support\Facades\DB;
         $dateFinish = $request['dateFinish'];
         $customerId = $request['customerId'];
         $customer =  CustomerTransaction::indexDate($dateStart,$dateFinish,$customerId);
-        foreach($customer as $result){
+       /* foreach($customer as $result){
             $totaly =+  $result->transactionAmount;
             $result->totaly =  $totaly;
-            $customerTransactions = array( $result);
-            return response()->json($customerTransactions);
-        }
+            $customerTransactions = array( $result);*/
+            return response()->json($customer);
+       // }
     }
 
 
