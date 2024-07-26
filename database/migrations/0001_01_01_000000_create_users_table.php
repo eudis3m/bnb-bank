@@ -39,9 +39,9 @@ return new class extends Migration
         });
 
         Schema::create('banks', function (Blueprint $table) {
-            $table->string('customerId')->nullable()->primary();
-            $table->string('customerName',300)->nullable();
-            $table->string('customerPin')->nullable();
+            $table->string('customerId')->primary();
+            $table->string('customerName',300);
+            $table->string('customerPin');
             $table->string('customerAccountType',300);
             $table->longText('customerAccountNo');
             $table->string('customerAccountBalance',300);
@@ -49,19 +49,10 @@ return new class extends Migration
             $table->integer('customerPan');
             $table->integer('customerContac');
             $table->string('customerEmail',300);
-            $table->date('updated_at');
+            $table->date('updated_at')->nullable();
         });
      
 
-        Schema::create('customer_transactions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreign('customerId')->references('customerId')->on('banks');
-            $table->integer('transactionId');
-            $table->date('transactionDate');
-            $table->integer('transactionAmount');
-            $table->string('transactionType',300);
-            $table->date('updated_at');
-        });
     
             DB::table('banks')->insert(
                 [
@@ -77,6 +68,16 @@ return new class extends Migration
                   'customerEmail' => 'raju@email.com'
                 ]
               );
+
+              Schema::create('customer_transactions', function (Blueprint $table) {
+                $table->increments('id')->primary();
+                $table->string('customerId')->foreign()->references('customerId')->on('banks');
+                $table->integer('transactionId');
+                $table->date('transactionDate');
+                $table->integer('transactionAmount');
+                $table->string('transactionType',300);
+                $table->date('updated_at')->nullable();
+            });
 
               DB::table('customer_transactions')->insert(
                 [
